@@ -60,6 +60,8 @@ function LoginPage() {
       if (getToken.data && getToken.data.jwt) {
         console.log('getToken:', getToken.data);
         // Set the token in a cookie named 'Token'
+
+        
         Cookies.set("Token", getToken.data.jwt, { expires: 7 }); // Set the token cookie with a 7-day expiration
       }
 
