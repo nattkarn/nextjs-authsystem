@@ -3,18 +3,18 @@
 import React from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import { FaGithub } from "react-icons/fa"; // Import GitHub icon
+import { FaGithub, FaUserShield } from "react-icons/fa"; // Import GitHub and Admin icons
 import Image from "next/image";
 
-import logoImage from '../../public/images/logoipsum-288.png'
+import logoImage from "../../public/images/logoipsum-288.png"; // Path to your logo image
 
-// https://picsum.photos/200/300?grayscale
 function Navbar({ session }) {
+  console.log("session",session);
   return (
     <nav className="bg-[#333] text-white p-5">
       <div className="container mx-auto">
         <div className="flex justify-between items-center">
-          {/* Left side (NextAuth and Products) */}
+          {/* Left side (Logo and Navigation Links) */}
           <div className="flex items-center gap-5">
             <Link href="/" className="text-2xl font-bold">
               <Image
@@ -25,9 +25,9 @@ function Navbar({ session }) {
               />
             </Link>
             <Link href="/">Home</Link>
-            <Link href="">Products</Link>
-            <Link href="">Category</Link>
-            <Link href="">API</Link>
+            <Link href="/products">Products</Link>
+            <Link href="/category">Category</Link>
+            <Link href="/api">API</Link>
           </div>
 
           {/* Right side (GitHub, Sign In/Sign Up or Logout) */}
@@ -55,8 +55,14 @@ function Navbar({ session }) {
               </>
             ) : (
               <>
-                <p className="px-3 py-2">
+                <p className="flex items-center px-3 py-2 gap-2">
                   <Link href="/profile">{session.user.name}</Link>
+                  
+                  {/* <p>role: </p> */}
+                  {/* Display Admin Icon if the user is an Admin */}
+                  {session.user.role === "Admin" && (
+                    <Link href="/admin"><FaUserShield title="Admin" size={20} className="text-yellow-500" /></Link>
+                  )}
                 </p>
                 <li className="bg-red-500 text-white px-3 py-2 rounded-md text-sm my-2">
                   <a onClick={() => signOut()} className="cursor-pointer">

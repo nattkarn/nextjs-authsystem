@@ -16,6 +16,9 @@ export const authOptions = {
         if (!credentials) return null;
         const user = await prisma.user.findUnique({
           where: { email: credentials.email },
+          include: {
+            role: true,
+          }
         });
 
         if (
@@ -32,7 +35,7 @@ export const authOptions = {
             id: user.id,
             name: user.name,
             email: user.email,
-            role: user.role,
+            // role: user.role,
           };
         } else {
           throw Error("Invalid email or password");
@@ -67,9 +70,21 @@ export const authOptions = {
       return token;
     },
     session: async ({ session, token }) => {
+      // console.log("token", token);
+      const role = await prisma.user.findUnique({
+        where: {
+          id: token.id
+        },
+        include: {
+          role: true
+        }
+      })
+
+      // console.log("role", role);
+      
       if (session.user) {
         session.user.id = token.id;
-        session.user.role = token.role;
+        session.user.role = role.role?.nameRole;
         session.user.image = token.picture; // เพิ่มการรับรูปภาพเข้ามา
       }
       return session;
