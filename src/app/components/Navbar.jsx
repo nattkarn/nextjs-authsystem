@@ -25,9 +25,9 @@ function Navbar({ session }) {
               />
             </Link>
             <Link href="/">Home</Link>
-            <Link href="/products">Products</Link>
-            <Link href="/category">Category</Link>
-            <Link href="/api">API</Link>
+            <Link href="/">Products</Link>
+            <Link href="/">Category</Link>
+            <Link href="/">API</Link>
           </div>
 
           {/* Right side (GitHub, Sign In/Sign Up or Logout) */}

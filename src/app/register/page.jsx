@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
 import { useRouter } from "next/navigation";
+
 import axios from "axios";
 
 function RegisterPage() {
@@ -18,6 +19,8 @@ function RegisterPage() {
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
+  
+  const { data: session, status } = useSession();
   const router = useRouter();
 
   const handleSubmit = async (e) => {
@@ -92,10 +95,16 @@ function RegisterPage() {
     }
   };
 
+  useEffect(() => {
+    if (session) {
+      router.push("/");
+    }
+  }, [session, router]);
+
   //   Html Session
   return (
     <div>
-      <Navbar />
+      <Navbar session={session} />
       <div className="container mx-auto py-5 flex items-center justify-center">
         <form action="" onSubmit={handleSubmit}>
           <h3 className="text-3xl bold text-center">Register Page</h3>
